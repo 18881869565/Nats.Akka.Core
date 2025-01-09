@@ -25,7 +25,14 @@ hostBuilder.ConfigureServices((context, services) =>
 
 });
 ```
-建立订阅nats的接收数据类，继承NatsTopicManager
+建立订阅nats的接收数据类，继承NatsTopicManager 
+
+Pub数据：Publish
+```c#
+connection.Publish(messageLidarPoints);
+```
+
+Sub数据：NatsSub
 ```c#
     public class LidarBusiness : NatsTopicManager
  {
@@ -58,3 +65,16 @@ hostBuilder.ConfigureServices((context, services) =>
      }
  }
 ```
+Req请求（默认超时5s）：
+```c#
+ var messageResonse = connection.Request<MessageRequset, MessageResonse>(new MessageRequset());
+```
+Respon回复：
+```c#
+ NatsSubRequest<MessageRequset>((msg, MessageRequset) =>
+ {
+     _logger.LogInformation($"{DateTime.Now.ToString()}接收Nats Req消息");
+     msg.Responsed(new MessageResonse(2));
+ });
+```
+
