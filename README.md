@@ -1,4 +1,4 @@
-核心注入IConnection：
+核心注入NatsClientFactory,IConnection：
 ```c#
 hostBuilder.ConfigureServices((context, services) =>
 {
