@@ -27,28 +27,34 @@ hostBuilder.ConfigureServices((context, services) =>
 ```
 建立订阅nats的接收数据类，继承NatsTopicManager
 ```c#
-    public class NatsClientService : NatsTopicManager
-    {
-        private readonly IConfiguration _configuration;
-        private readonly IEventAggregator _eventAggregator;
-        public NatsClientService(IConnection connection, IConfiguration configuration, IEventAggregator eventAggregator) : base(connection)
-        {
-            _configuration = configuration;
-            _eventAggregator = eventAggregator;
-            ReceiveReaady();
-        }
+    public class LidarBusiness : NatsTopicManager
+ {
+     private readonly ILogger<NatsTopicManager> _logger;
+     private readonly IConnection _connection;
+     public LidarBusiness(ILogger<NatsTopicManager> logger, IConnection connection) : base(connection)
+     {
+         _logger = logger;
+         _connection = connection;
+         BeginReceiveMsg();
+     }
 
-        private void ReceiveReaady()
-        {
-            NatsSub<MessageLidarPoints>(msg =>
-            {
-                var natsUrl = _configuration["Nats:Url"];
-                _eventAggregator.GetEvent<LidarPointsEvent>().Publish(msg);
-            });
-        }
-        ~NatsClientService()
-        {
-            
-        }
-    }
+     public void BeginReceiveMsg()
+     {
+         NatsSub<MessageLidarPoints>(msg =>
+         {
+             _logger.LogInformation($"{DateTime.Now.ToString()}接收Nats Sub消息");
+             //var messageLidarPoints = ConvertObjMsg<MessageLidarPoints>(msg);
+             //_logger.LogInformation(JsonSerializer.Serialize(messageLidarPoints));
+
+         });
+
+         NatsSubRequest<MessageRequset>((msg, MessageRequset) =>
+         {
+             _logger.LogInformation($"{DateTime.Now.ToString()}接收Nats Req消息");
+             msg.Responsed(new MessageResonse(2));
+         });
+
+        
+     }
+ }
 ```
