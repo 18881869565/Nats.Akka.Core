@@ -1,3 +1,6 @@
+本库通讯采用Nats，前提需要需要运行NatsServer服务
+
+
 核心注入NatsClientFactory,IConnection：
 ```c#
 hostBuilder.ConfigureServices((context, services) =>
