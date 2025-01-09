@@ -1,4 +1,5 @@
 核心注入：
+```c#
 hostBuilder.ConfigureServices((context, services) =>
 {
     services.AddSingleton<NatsClientFactory>();
@@ -23,8 +24,9 @@ hostBuilder.ConfigureServices((context, services) =>
     services.AddHostedService<ModuleHostService>();
 
 });
-
+```
 建立订阅nats的接收数据类，继承NatsTopicManager
+```c#
     public class NatsClientService : NatsTopicManager
     {
         private readonly IConfiguration _configuration;
@@ -49,3 +51,4 @@ hostBuilder.ConfigureServices((context, services) =>
             
         }
     }
+```
