@@ -1,4 +1,4 @@
-核心注入：
+核心注入IConnection：
 ```c#
 hostBuilder.ConfigureServices((context, services) =>
 {
