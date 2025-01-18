@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 namespace Nats.Akka.Core.Manager
 {
     public abstract class NatsTopicManager : NatsTopicReceiveBase
-    { 
+    {
         private readonly IConnection _connection;
         public Action<Msg> AllSubMsgAction;
-        public NatsTopicManager( IConnection connection)
+        public NatsTopicManager(IConnection connection)
         {
             _connection = connection;
         }
 
         private void SubTopic(string topicName, Type receiveType)
-        { 
+        {
             _connection.SubscribeAsync(topicName, (sender, args) =>
             {
                 var subject = args.Message.Subject;
@@ -94,7 +94,7 @@ namespace Nats.Akka.Core.Manager
         private void SubRequestTopic(string topicName, Type receiveType)
         {
             Console.WriteLine($"订阅Request主题  名称【{topicName}】");
-            _connection.SubscribeAsync(topicName, (sender, args) =>
+            _connection.SubscribeAsync(topicName, async (sender, args) =>
             {
                 var subject = args.Message.Subject;
                 if (TopicSubRequestEventDic.TryGetValue(subject, out var eventHandler))
@@ -102,13 +102,13 @@ namespace Nats.Akka.Core.Manager
                     if (eventHandler is Delegate typedHandler)
                     {
                         // 处理 Action<T> 类型的委托
-                        Task.Run(() =>
-                        {
-                            // 获取委托的参数类型，并将 Msg 转换为相应类型
-                            var paramType = typedHandler.Method.GetParameters().Last().ParameterType;
-                            var msgObj = ConvertObjMsg(paramType, args.Message);
-                            typedHandler.DynamicInvoke(args.Message, msgObj);
-                        });
+                        await Task.Run(() =>
+                         {
+                             // 获取委托的参数类型，并将 Msg 转换为相应类型
+                             var paramType = typedHandler.Method.GetParameters().Last().ParameterType;
+                             var msgObj = ConvertObjMsg(paramType, args.Message);
+                             typedHandler.DynamicInvoke(args.Message, msgObj);
+                         });
                     }
                 }
             });
