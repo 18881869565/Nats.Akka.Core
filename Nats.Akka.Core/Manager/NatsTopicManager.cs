@@ -1,4 +1,5 @@
-﻿using NATS.Client;
+﻿using K4os.Compression.LZ4;
+using NATS.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -115,14 +116,16 @@ namespace Nats.Akka.Core.Manager
         }
         public T ConvertObjMsg<T>(Msg msg)
         {
+            var decompressed = LZ4Pickler.Unpickle(msg.Data);
             // 反序列化消息
-            T t = JsonSerializer.Deserialize<T>(new ReadOnlySpan<byte>(msg.Data));
+            T t = JsonSerializer.Deserialize<T>(new ReadOnlySpan<byte>(decompressed));
             return t;
         }
         public object ConvertObjMsg(Type targetType, Msg msg)
         {
+            var decompressed = LZ4Pickler.Unpickle(msg.Data);
             // 通过目标类型进行反序列化
-            return JsonSerializer.Deserialize(new ReadOnlySpan<byte>(msg.Data), targetType);
+            return JsonSerializer.Deserialize(new ReadOnlySpan<byte>(decompressed), targetType);
         }
     }
 }

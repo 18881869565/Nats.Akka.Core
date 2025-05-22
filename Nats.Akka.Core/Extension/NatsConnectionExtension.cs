@@ -1,4 +1,5 @@
-﻿using NATS.Client;
+﻿using K4os.Compression.LZ4;
+using NATS.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,31 +15,36 @@ namespace Nats.Akka.Core.Extension
         {
             var type = t.GetType();
             var bytes = JsonSerializer.SerializeToUtf8Bytes(t);
-            connection.Publish(type.FullName, bytes);
+            byte[] compressedJson = LZ4Pickler.Pickle(bytes);
+            connection.Publish(type.FullName, compressedJson);
         }
 
         public static TRespon? Request<TReq, TRespon>(this IConnection connection, TReq t, int timeoutmilliseconds = 5000)
         {
             var type = t.GetType();
             var bytes = JsonSerializer.SerializeToUtf8Bytes(t);
-            var msg = connection.Request(type.FullName, bytes, timeoutmilliseconds);
+            byte[] compressedJson = LZ4Pickler.Pickle(bytes);
+            var msg = connection.Request(type.FullName, compressedJson, timeoutmilliseconds);
             if (msg == null)
             {
                 return default(TRespon);
             }
-            var respon = JsonSerializer.Deserialize<TRespon>(msg.Data);
+            var decompressed = LZ4Pickler.Unpickle(msg.Data);
+            var respon = JsonSerializer.Deserialize<TRespon>(decompressed);
             return respon;
         }
         public static async Task<TRespon?> RequestAsync<TReq, TRespon>(this IConnection connection, TReq t, int timeoutmilliseconds = 5000)
         {
             var type = t.GetType();
             var bytes = JsonSerializer.SerializeToUtf8Bytes(t);
-            var msg = await connection.RequestAsync(type.FullName, bytes, timeoutmilliseconds);
+            byte[] compressedJson = LZ4Pickler.Pickle(bytes);
+            var msg = await connection.RequestAsync(type.FullName, compressedJson, timeoutmilliseconds);
             if (msg == null)
             {
                 return default(TRespon);
             }
-            var respon = JsonSerializer.Deserialize<TRespon>(msg.Data);
+            var decompressed = LZ4Pickler.Unpickle(msg.Data);
+            var respon = JsonSerializer.Deserialize<TRespon>(decompressed);
             return respon;
         }
     }
