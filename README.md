@@ -52,8 +52,16 @@
                  }
              });
 
-             //Request
-            MessagesRequest1Result result = _connection.Request<MessagesRequest1, MessagesRequest1Result>(new MessagesRequest1());
+             //Request,默认超时5000ms
+            try
+            {
+               MessagesRequest1Result result = _connection.Request<MessagesRequest1, MessagesRequest1Result>(new MessagesRequest1());
+            }
+            catch (Exception ex)
+            {
+                      
+            }
+           
             
       }
      }
