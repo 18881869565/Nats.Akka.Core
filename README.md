@@ -1,6 +1,8 @@
     appsettings.json中配置地址：
       "Nats": {
       "Url": "nats://127.0.0.1:4222",
+      "DeviceName": "test",
+      "DeviceDescription": "test模块"
     },
     
     依赖注入
