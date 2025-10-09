@@ -1,3 +1,5 @@
+通讯组件：https://github.com/nats-io/nats-server
+
     appsettings.json中配置地址：
       "Nats": {
       "Url": "nats://127.0.0.1:4222",
