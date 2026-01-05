@@ -4,9 +4,10 @@
 		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<Version>1.1.2</Version>
+		<Version>1.1.3</Version>
 		<Authors>lym</Authors>
 		<Description>Nats采用akka.net的方式进行订阅数据</Description>
+		<RepositoryUrl>https://github.com/18881869565/Nats.Akka.Core</RepositoryUrl>
 	</PropertyGroup>
 
 	<ItemGroup>
