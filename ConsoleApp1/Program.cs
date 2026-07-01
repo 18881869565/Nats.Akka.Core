@@ -16,7 +16,7 @@ var settings = new BenchmarkSettings(
     NatsUrl: "nats://127.0.0.1:4222",
     MessagesPerSecond: 200,
     DurationSeconds: 1,
-    PayloadSizeBytes: 1024 * 50,
+    PayloadSizeBytes: 1024 * 1024 * 10,
     DrainTimeout: TimeSpan.FromSeconds(30));
 
 Console.OutputEncoding = Encoding.UTF8;

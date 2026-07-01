@@ -1,10 +1,8 @@
-﻿using K4os.Compression.LZ4;
 using NATS.Client;
+using Nats.Akka.Core.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Nats.Akka.Core.Manager
@@ -12,7 +10,7 @@ namespace Nats.Akka.Core.Manager
     public abstract class NatsTopicManager : NatsTopicReceiveBase
     {
         private readonly IConnection _connection;
-        public Action<Msg> AllSubMsgAction;
+        public Action<Msg>? AllSubMsgAction;
         public NatsTopicManager(IConnection connection)
         {
             _connection = connection;
@@ -55,7 +53,7 @@ namespace Nats.Akka.Core.Manager
         protected void NatsSub<T>(Action<T> handler)
         {
             Type receiveType = typeof(T);
-            var topicName = receiveType.FullName;
+            var topicName = GetSubjectName(receiveType);
             if (TopicSubEventDic != null)
             {
                 if (TopicSubEventDic.TryGetValue(topicName, out var actions))
@@ -77,7 +75,7 @@ namespace Nats.Akka.Core.Manager
         protected void NatsSubRequest<TRequest>(Action<Msg, TRequest> action)
         {
             Type receiveType = typeof(TRequest);
-            var topicName = receiveType.FullName;
+            var topicName = GetSubjectName(receiveType);
             if (TopicSubRequestEventDic != null)
             {
                 if (TopicSubRequestEventDic.TryGetValue(topicName, out var actions))
@@ -116,16 +114,17 @@ namespace Nats.Akka.Core.Manager
         }
         public T ConvertObjMsg<T>(Msg msg)
         {
-            var decompressed = LZ4Pickler.Unpickle(msg.Data);
-            // 反序列化消息
-            T t = JsonSerializer.Deserialize<T>(new ReadOnlySpan<byte>(decompressed));
-            return t;
+            return NatsMessageCodec.Deserialize<T>(msg.Data)!;
         }
         public object ConvertObjMsg(Type targetType, Msg msg)
         {
-            var decompressed = LZ4Pickler.Unpickle(msg.Data);
-            // 通过目标类型进行反序列化
-            return JsonSerializer.Deserialize(new ReadOnlySpan<byte>(decompressed), targetType);
+            return NatsMessageCodec.Deserialize(msg.Data, targetType)
+                ?? throw new InvalidOperationException($"Unable to deserialize payload to {targetType.FullName}.");
+        }
+
+        private static string GetSubjectName(Type type)
+        {
+            return type.FullName ?? throw new InvalidOperationException($"Type {type.Name} does not have a valid FullName.");
         }
     }
 }
