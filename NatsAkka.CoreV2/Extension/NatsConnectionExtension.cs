@@ -1,7 +1,7 @@
-using Nats.Akka.CoreV2.Internal;
+using Nats.Akka.Core.Internal;
 using NATS.Client;
 
-namespace Nats.Akka.CoreV2.Extension;
+namespace Nats.Akka.Core.Extension;
 
 /// <summary>
 /// IConnection 的压缩发布与请求扩展方法。

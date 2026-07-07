@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Threading.Channels;
 using NATS.Client;
 
-namespace Nats.Akka.CoreV2.Manager;
+namespace Nats.Akka.Core.Manager;
 
 /// <summary>
 /// 单主题顺序消费处理器。

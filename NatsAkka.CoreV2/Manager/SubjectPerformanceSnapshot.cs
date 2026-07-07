@@ -1,4 +1,4 @@
-namespace Nats.Akka.CoreV2.Manager;
+namespace Nats.Akka.Core.Manager;
 
 /// <summary>
 /// 单个主题的内部性能监控快照。

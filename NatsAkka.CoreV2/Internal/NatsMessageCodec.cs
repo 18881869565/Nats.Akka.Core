@@ -1,7 +1,7 @@
 using K4os.Compression.LZ4;
 using System.Text.Json;
 
-namespace Nats.Akka.CoreV2.Internal;
+namespace Nats.Akka.Core.Internal;
 
 /// <summary>
 /// 统一处理消息的 JSON 序列化与 LZ4 压缩。

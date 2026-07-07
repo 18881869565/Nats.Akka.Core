@@ -1,6 +1,6 @@
 using NATS.Client;
 
-namespace Nats.Akka.CoreV2.Client;
+namespace Nats.Akka.Core.Client;
 
 /// <summary>
 /// NATS 连接抽象，封装连接状态、发布和请求响应能力。

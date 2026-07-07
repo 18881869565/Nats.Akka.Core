@@ -1,4 +1,4 @@
-namespace Nats.Akka.CoreV2.Manager;
+namespace Nats.Akka.Core.Manager;
 
 /// <summary>
 /// 为计数器操作提供线程安全辅助方法。

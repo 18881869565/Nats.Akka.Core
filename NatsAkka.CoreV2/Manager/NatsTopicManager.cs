@@ -1,10 +1,10 @@
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Threading;
-using Nats.Akka.CoreV2.Internal;
+using Nats.Akka.Core.Internal;
 using NATS.Client;
 
-namespace Nats.Akka.CoreV2.Manager;
+namespace Nats.Akka.Core.Manager;
 
 /// <summary>
 /// 提供顺序消费能力的主题管理基类。

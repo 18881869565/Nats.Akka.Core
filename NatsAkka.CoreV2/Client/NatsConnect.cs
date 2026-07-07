@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Configuration;
-using Nats.Akka.CoreV2.Extension;
+using Nats.Akka.Core.Extension;
 using NATS.Client;
 
-namespace Nats.Akka.CoreV2.Client;
+namespace Nats.Akka.Core.Client;
 
 /// <summary>
 /// 基于配置创建并维护 NATS 连接的默认实现。

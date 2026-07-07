@@ -1,4 +1,4 @@
-namespace Nats.Akka.CoreV2.Manager;
+namespace Nats.Akka.Core.Manager;
 
 /// <summary>
 /// NatsTopicManager 的顺序消费与背压配置。

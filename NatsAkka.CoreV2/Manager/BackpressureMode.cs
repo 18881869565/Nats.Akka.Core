@@ -1,4 +1,4 @@
-namespace Nats.Akka.CoreV2.Manager;
+namespace Nats.Akka.Core.Manager;
 
 /// <summary>
 /// 队列满载时的背压策略。

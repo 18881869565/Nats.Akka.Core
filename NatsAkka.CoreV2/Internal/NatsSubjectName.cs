@@ -1,4 +1,4 @@
-namespace Nats.Akka.CoreV2.Internal;
+namespace Nats.Akka.Core.Internal;
 
 /// <summary>
 /// 统一生成 NATS 主题名，默认使用类型全名。

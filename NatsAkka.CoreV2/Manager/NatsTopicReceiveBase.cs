@@ -1,6 +1,6 @@
 using System.Collections.Concurrent;
 
-namespace Nats.Akka.CoreV2.Manager;
+namespace Nats.Akka.Core.Manager;
 
 /// <summary>
 /// 保存主题到处理器的注册关系。

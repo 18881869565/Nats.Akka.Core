@@ -1,6 +1,6 @@
 using NATS.Client;
 
-namespace Nats.Akka.CoreV2.Factory;
+namespace Nats.Akka.Core.Factory;
 
 /// <summary>
 /// NATS 连接工厂，负责按指定参数创建底层连接。

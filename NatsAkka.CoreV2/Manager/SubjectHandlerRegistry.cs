@@ -1,6 +1,6 @@
 using NATS.Client;
 
-namespace Nats.Akka.CoreV2.Manager;
+namespace Nats.Akka.Core.Manager;
 
 /// <summary>
 /// 某个主题下的处理器注册表。

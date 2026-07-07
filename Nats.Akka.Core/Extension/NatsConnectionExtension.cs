@@ -13,6 +13,16 @@ namespace Nats.Akka.Core.Extension
             connection.Publish(subject, NatsMessageCodec.Serialize(t));
         }
 
+        public static void Publish<T>(this IConnection connection, string subject, T t)
+        {
+            if (string.IsNullOrWhiteSpace(subject))
+            {
+                throw new ArgumentException("Subject cannot be null or whitespace.", nameof(subject));
+            }
+
+            connection.Publish(subject, NatsMessageCodec.Serialize(t));
+        }
+
         public static TRespon? Request<TReq, TRespon>(this IConnection connection, TReq t, int timeoutmilliseconds = 5000)
         {
             var subject = GetSubjectName(t);

@@ -1,7 +1,7 @@
-using Nats.Akka.CoreV2.Internal;
+using Nats.Akka.Core.Internal;
 using NATS.Client;
 
-namespace Nats.Akka.CoreV2.Extension;
+namespace Nats.Akka.Core.Extension;
 
 /// <summary>
 /// NATS 消息响应扩展方法。

@@ -3,7 +3,7 @@ using System.Text.Json;
 
 namespace Nats.Akka.Core.Internal
 {
-    internal static class NatsMessageCodec
+    public static class NatsMessageCodec
     {
         private static readonly JsonSerializerOptions JsonOptions = new()
         {
