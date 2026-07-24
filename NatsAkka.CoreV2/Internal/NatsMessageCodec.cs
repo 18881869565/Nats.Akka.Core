@@ -1,5 +1,6 @@
 using K4os.Compression.LZ4;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Nats.Akka.Core.Internal;
 
@@ -10,7 +11,8 @@ public static class NatsMessageCodec
 {
     private static readonly JsonSerializerOptions JsonOptions = new()
     {
-        IncludeFields = true
+        IncludeFields = true,
+        PreferredObjectCreationHandling = JsonObjectCreationHandling.Populate
     };
     public static byte[] Serialize<T>(T value)
     {
